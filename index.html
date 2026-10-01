@@ -1,191 +1,288 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Juegos Interactivos</title>
-  <style>
-    /* Reset básico */
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      user-select: none;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mente Activa</title>
+<meta name="description" content="Juego interactivo para entrenar la memoria y la atención.">
+<meta name="theme-color" content="#2A6F6F">
 
-    html, body {
-      width: 100%;
-      height: 100%;
-      overflow: hidden; /* Elimina cualquier scroll */
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #f0f4f8;
-      color: #333;
-    }
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
+<link rel="manifest" href='data:application/manifest+json,{"name":"Mente Activa","short_name":"MenteActiva","start_url":".","display":"standalone","background_color":"#FAF6F0","theme_color":"#2A6F6F","icons":[{"src":"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
 
-    /* Pantalla principal del juego: ocupa el 100% exacto de la vista */
-    .game-screen {
-      width: 100vw;
-      height: 100dvh; /* Dynamic Viewport Height para adaptarse a barras móviles */
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      overflow: hidden;
-    }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
-    /* Cabecera adaptativa */
-    .header {
-      width: 100%;
-      max-width: 800px;
-      text-align: center;
-      flex-shrink: 0;
-    }
+<style>
+:root {
+  --bg: #FAF6F0; --card: #FFFFFF; --ink: #1F2D2D; --ink-soft: #4B5A5A;
+  --teal: #2A6F6F; --teal-dark: #1D5252; --coral: #E1795A; --good: #3E8E5B;
+  --bad: #C24E4E; --line: #E4DCCF;
+  box-sizing: border-box;
+}
 
-    .title {
-      font-size: clamp(1.2rem, 4vw, 2.2rem);
-      color: #2c3e50;
-      font-weight: 700;
-    }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #182323; --card: #20302F; --ink: #F2EFE9; --ink-soft: #C9D3D0;
+    --teal: #59B6AE; --teal-dark: #3E8E85; --coral: #F0916E; --good: #6FBE8C;
+    --bad: #E28080; --line: #33433F;
+  }
+}
 
-    .subtitle {
-      font-size: clamp(0.8rem, 2.5vw, 1.1rem);
-      color: #7f8c8d;
-      margin-top: 4px;
-    }
+* { box-sizing: border-box; }
 
-    /* Zona central interactiva (se escala automáticamente) */
-    .main-board {
-      flex: 1;
-      width: 100%;
-      max-width: 600px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0.5rem 0;
-      min-height: 0; /* Necesario para que flexbox respete el alto disponible */
-    }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Evita el scroll global de la pantalla */
+}
 
-    /* Tablero en rejilla adaptable */
-    .grid-board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: 12px;
-      width: 100%;
-      height: 100%;
-      max-height: 100%;
-      aspect-ratio: 1 / 1; /* Mantiene la proporción cuadrada */
-    }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Atkinson Hyperlegible", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-size: 1.15rem;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: env(safe-area-inset-top, 10px) env(safe-area-inset-right, 10px) env(safe-area-inset-bottom, 10px) env(safe-area-inset-left, 10px);
+}
 
-    /* Tarjetas/Fichas del juego */
-    .card {
-      background: white;
-      border-radius: 12px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: clamp(1.5rem, 6vw, 3rem);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      border: 2px solid #e2e8f0;
-      cursor: pointer;
-      transition: transform 0.15s ease, background-color 0.2s ease;
-    }
+button, input { font-family: inherit; touch-action: manipulation; }
 
-    .card:active {
-      transform: scale(0.95);
-    }
+/* Contenedor principal responsive y centrado */
+.wrap {
+  width: 100%;
+  max-width: 640px;
+  max-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+}
 
-    .card.selected {
-      background-color: #3b82f6;
-      color: white;
-      border-color: #2563eb;
-    }
+header.top { text-align: center; margin-bottom: 12px; flex-shrink: 0; }
+header.top h1 { font-size: 1.8rem; margin: 0 0 4px; color: var(--teal-dark); }
+header.top p { margin: 0; color: var(--ink-soft); font-size: 0.95rem; }
 
-    /* Pie de página con controles */
-    .footer {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      flex-shrink: 0;
-    }
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; margin-top: 8px; font-size: 0.85rem; color: var(--ink-soft); }
+.sb { background: var(--card); border: 2px solid var(--line); color: var(--ink); border-radius: 8px; padding: 4px 10px; font-weight: 700; font-size: 0.9rem; cursor: pointer; }
+.sb.on { background: var(--teal); border-color: var(--teal); color: #fff; }
 
-    .btn {
-      flex: 1;
-      padding: clamp(0.6rem, 2vh, 1rem);
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      font-weight: 600;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background-color: #10b981;
-      color: white;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-      transition: background-color 0.2s;
-    }
+.tip { background: var(--card); border: 2px solid var(--line); border-left: 6px solid var(--coral); border-radius: 10px; padding: 8px 12px; margin-bottom: 12px; font-size: 0.9rem; }
 
-    .btn:hover {
-      background-color: #059669;
-    }
+.panel { 
+  background: var(--card); 
+  border-radius: 18px; 
+  padding: 16px; 
+  border: 2px solid var(--line);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.panel h2 { margin-top: 0; margin-bottom: 8px; color: var(--teal-dark); font-size: 1.4rem; text-align: center; }
 
-    .btn-secondary {
-      background-color: #64748b;
-    }
+.btn { background: var(--teal); color: #fff; border: none; border-radius: 12px; padding: 12px 18px; font-size: 1.1rem; cursor: pointer; width: 100%; margin-top: 8px; font-weight: 700; }
+.btn:hover { background: var(--teal-dark); }
 
-    .btn-secondary:hover {
-      background-color: #475569;
-    }
-  </style>
+.status { font-size: 0.95rem; color: var(--ink-soft); margin-bottom: 10px; text-align: center; }
+.feedback { min-height: 28px; font-weight: 700; margin: 6px 0; text-align: center; font-size: 1rem; }
+.feedback.good { color: var(--good); } .feedback.bad { color: var(--bad); }
+
+.final { text-align: center; } 
+.final .big { font-size: 2.5rem; font-weight: 700; }
+.bigimg { font-size: 4rem; text-align: center; line-height: 1; margin: 4px 0; }
+
+.mem-grid { 
+  display: grid; 
+  gap: 10px; 
+  margin: 10px 0; 
+  width: 100%;
+}
+.mem-card { 
+  aspect-ratio: 1; 
+  border-radius: 12px; 
+  border: 2px solid var(--teal); 
+  cursor: pointer; 
+  font-size: 2.2rem; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  background: var(--teal); 
+  color: #fff;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+.mem-card:active { transform: scale(0.95); }
+.mem-card.flipped { background: var(--card); border-color: var(--line); color: var(--ink); }
+.mem-card.matched { border-color: var(--good); background: var(--card); opacity: 0.85; }
+
+.prog-row { display: flex; justify-content: space-between; gap: 10px; background: var(--bg); border: 2px solid var(--line); border-radius: 10px; padding: 10px 14px; margin-bottom: 8px; font-size: 0.95rem; }
+.prog-row span { color: var(--teal-dark); font-weight: 700; }
+
+@media (max-height: 600px) {
+  header.top p, .tip { display: none; }
+  header.top h1 { font-size: 1.4rem; }
+  .panel { padding: 10px; }
+  .mem-card { font-size: 1.8rem; }
+}
+</style>
 </head>
 <body>
+<div class="wrap">
+  <header class="top">
+    <h1>🧠 Mente Activa</h1>
+    <p>Entrená tu memoria encontrando las parejas de figuras</p>
+    <div class="bar">
+      <span>Letra:</span>
+      <button class="sb" onclick="setFs(-1)" aria-label="Achicar letra">A−</button>
+      <button class="sb" onclick="setFs(1)" aria-label="Agrandar letra">A+</button>
+      <span style="margin-left:8px;">Dificultad:</span>
+      <button class="sb" id="l0" onclick="setLv(0)">Fácil (6)</button>
+      <button class="sb" id="l1" onclick="setLv(1)">Normal (8)</button>
+      <button class="sb" id="l2" onclick="setLv(2)">Desafío (12)</button>
+    </div>
+  </header>
 
-  <main class="game-screen">
-    <!-- Cabecera -->
-    <header class="header">
-      <h1 class="title" id="game-title">Juego Interactivo</h1>
-      <p class="subtitle" id="game-desc">Toca una casilla para jugar</p>
-    </header>
+  <main id="app"></main>
+</div>
 
-    <!-- Área principal (sin scroll) -->
-    <section class="main-board">
-      <div class="grid-board" id="board">
-        <div class="card" onclick="playCard(this)">⚽</div>
-        <div class="card" onclick="playCard(this)">🏀</div>
-        <div class="card" onclick="playCard(this)">🎾</div>
-        <div class="card" onclick="playCard(this)">🏐</div>
-        <div class="card" onclick="playCard(this)">🏉</div>
-        <div class="card" onclick="playCard(this)">🏓</div>
-        <div class="card" onclick="playCard(this)">🏸</div>
-        <div class="card" onclick="playCard(this)">🥊</div>
-        <div class="card" onclick="playCard(this)">🎯</div>
-      </div>
-    </section>
+<script>
+if ('serviceWorker' in navigator) {
+  const swCode = `
+    const CACHE = 'mente-activa-v2';
+    self.addEventListener('install', e => {
+      e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./'])));
+      self.skipWaiting();
+    });
+    self.addEventListener('activate', e => {
+      e.waitUntil(caches.keys().then(ks => Promise.all(ks.map(k => k !== CACHE && caches.delete(k)))));
+      self.clients.claim();
+    });
+    self.addEventListener('fetch', e => {
+      e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./'))));
+    });
+  `;
+  const blob = new Blob([swCode], { type: 'text/javascript' });
+  navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+}
 
-    <!-- Controles -->
-    <footer class="footer">
-      <button class="btn btn-secondary" onclick="resetGame()">Reiniciar</button>
-      <button class="btn" onclick="nextLevel()">Siguiente</button>
-    </footer>
-  </main>
+const $= s => document.querySelector(s), app =$('#app'), rnd = n => Math.floor(Math.random() * n);
+const shuffle = a => { for (let i = a.length - 1; i > 0; i--) { const j = rnd(i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const sample = (a, n) => shuffle([...a]).slice(0, n);
 
-  <script>
-    function playCard(element) {
-      element.classList.toggle('selected');
+let L = 1, fs = 0, ST = {}, TM = [], IS_BUSY = false;
+const EM = ['🍎','🐶','🌹','🚲','☕','🐱','🏠','🎸','🌞','🍰','🐟','⚽','🚌','🧉','🦋','🎂'];
+
+const store = (k, v) => { try { localStorage.setItem('ma_' + k, v); } catch (e) {} };
+const get = (k, d) => { try { const v = localStorage.getItem('ma_' + k); return v === null ? d : v; } catch (e) { return d; } };
+
+function setFs(d) { 
+  fs = Math.max(-2, Math.min(2, fs + (d || 0))); 
+  document.documentElement.style.fontSize = (15 + fs * 2) + 'px'; 
+  store('fs', fs); 
+}
+
+function setLv(i) { 
+  L = i; 
+  [0, 1, 2].forEach(j => $('#l' + j).classList.toggle('on', j === i)); 
+  store('lv', i); 
+  parejas(); 
+}
+
+fs = parseInt(get('fs', 0)) || 0; 
+setFs(0); 
+
+function stop() { TM.forEach(clearTimeout); TM = []; }
+function later(f, ms) { const id = setTimeout(f, ms); TM.push(id); return id; }
+
+function view(t, h) {
+  stop();
+  app.innerHTML = `<div class="panel"><h2>${t}</h2>${h}</div>`;
+  IS_BUSY = true;
+  later(() => { IS_BUSY = false; }, 250);
+}
+
+function stats() { try { return JSON.parse(get('stats', '{}')); } catch (e) { return {}; } }
+function rec(k, s, n) { const S = stats(), o = S[k] || (S[k] = { j: 0, m: 0 }); o.j++; o.n = n; o.m = Math.max(o.m, s); store('stats', JSON.stringify(S)); }
+
+function end(k, s, n, msg) {
+  rec(k, s, n); 
+  const r = s / n;
+  view('¡Juego Terminado!', `
+    <div class="final">
+      <div class="bigimg">${r >= .8 ? '🏆' : r >= .5 ? '🌟' : '💪'}</div>
+      <p style="margin: 4px 0; font-weight: 700;">${r >= .8 ? '¡Excelente memoria!' : r >= .5 ? '¡Muy bien hecho!' : '¡Buen intento!'}</p>
+      <div class="big" style="color: var(--teal-dark);">${s} / ${n}</div>
+      <p style="font-size: 0.95rem; color: var(--ink-soft); margin: 6px 0 12px;">${msg || ''}</p>
+      <button class="btn" onclick="parejas()">Jugar de nuevo 🔄</button>
+    </div>
+  `);
+}
+
+function parejas() {
+  const pairsCount = [6, 8, 12][L]; 
+  const cols = pairsCount === 6 ? 3 : 4;
+  const selectedIcons = sample(EM, pairsCount); 
+  
+  ST = { f: null, lock: 0, m: 0, mv: 0, n: pairsCount };
+  
+  view('Memoria de Parejas', `
+    <div class="status" id="st">Encontrá las parejas (0 / ${pairsCount})</div>
+    <div class="mem-grid" style="grid-template-columns: repeat(${cols}, 1fr);">
+      ${shuffle([...selectedIcons, ...selectedIcons]).map(c => `<button class="mem-card" data-s="${c}" aria-label="Carta oculta" onclick="flip(this)">?</button>`).join('')}
+    </div>
+  `);
+}
+
+function flip(b) {
+  if (ST.lock || b.classList.contains('flipped') || IS_BUSY) return;
+  
+  b.textContent = b.dataset.s;
+  b.classList.add('flipped');
+  b.setAttribute('aria-label', 'Carta con figura ' + b.dataset.s);
+  
+  if (!ST.f) { 
+    ST.f = b; 
+    return; 
+  }
+  
+  ST.mv++; 
+  const a = ST.f; 
+  ST.f = null;
+  
+  if (a.dataset.s === b.dataset.s) {
+    a.classList.add('matched'); 
+    b.classList.add('matched');
+    a.setAttribute('aria-label', 'Carta emparejada ' + a.dataset.s);
+    b.setAttribute('aria-label', 'Carta emparejada ' + b.dataset.s);
+    ST.m++; 
+    
+    $('#st').textContent = `Parejas encontradas: ${ST.m} de ${ST.n}`;
+    
+    if (ST.m === ST.n) {
+      later(() => end('parejas', Math.max(1, Math.round(ST.n * 1.5 - (ST.mv - ST.n))), ST.n, `Completado en ${ST.mv} intentos.`), 700);
     }
+  } else {
+    ST.lock = 1;
+    later(() => {
+      [a, b].forEach(x => {
+        x.classList.remove('flipped');
+        x.textContent = '?';
+        x.setAttribute('aria-label', 'Carta oculta');
+      });
+      ST.lock = 0;
+    }, 800);
+  }
+}
 
-    function resetGame() {
-      const cards = document.querySelectorAll('.card');
-      cards.forEach(card => card.classList.remove('selected'));
-    }
-
-    function nextLevel() {
-      alert('¡Siguiente nivel cargado!');
-      resetGame();
-    }
-  </script>
-
+// Inicializar configuraciones guardadas y cargar el juego centrado
+L = parseInt(get('lv', 1)) || 0;
+[0, 1, 2].forEach(j => $('#l' + j).classList.toggle('on', j === L));
+parejas();
+</script>
 </body>
 </html>
