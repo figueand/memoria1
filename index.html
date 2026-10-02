@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mente Activa</title>
-<meta name="description" content="Juegos sencillos para entrenar la memoria, la atención y aprender a usar la computadora o el celular sin miedo.">
+<title>Centro de Innovación Tecnológica de Aldeas Infantiles Argentina Filial Mendoza</title>
+<meta name="description" content="Centro de Innovación Tecnológica de Aldeas Infantiles Argentina Filial Mendoza: juegos sencillos para entrenar la memoria y aprender a usar la compu o el celular de forma segura.">
 <meta name="theme-color" content="#2A6F6F">
 
 <!-- Favicon con SVG incrustado para WhatsApp / Navegadores -->
 <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>">
 
 <!-- PWA Manifest incrustado en Data URI -->
-<link rel="manifest" href='data:application/manifest+json,{"name":"Mente Activa","short_name":"MenteActiva","start_url":".","display":"standalone","background_color":"#FAF6F0","theme_color":"#2A6F6F","icons":[{"src":"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
+<link rel="manifest" href='data:application/manifest+json,{"name":"Centro de Innovación Tecnológica de Aldeas Infantiles Argentina Filial Mendoza","short_name":"Mente Activa","start_url":".","display":"standalone","background_color":"#FAF6F0","theme_color":"#2A6F6F","icons":[{"src":"data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🧠</text></svg>","sizes":"512x512","type":"image/svg+xml"}]}'>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +51,9 @@ button, input { font-family: inherit; touch-action: manipulation; }
 
 .wrap { max-width: 860px; margin: 0 auto; padding: 24px 18px 60px; }
 header.top { text-align: center; margin-bottom: 18px; }
-header.top h1 { font-size: 2.3rem; margin: 0 0 6px; color: var(--teal-dark); }
+header.top h1 { font-size: 1.7rem; line-height: 1.25; margin: 0 0 8px; color: var(--teal-dark); }
+.brand { display: inline-block; background: var(--teal); color: #fff; font-weight: 700; font-size: 1.1rem; border-radius: 30px; padding: 4px 16px; margin-bottom: 10px; }
+.diploma .org { font-size: 1.15rem; font-weight: 700; color: var(--teal-dark); margin-bottom: 6px; }
 header.top p { margin: 0; color: var(--ink-soft); font-size: 1.1rem; }
 
 .bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin-top: 14px; font-size: .95rem; color: var(--ink-soft); }
@@ -143,14 +145,15 @@ button.chip { cursor: pointer; } .chip.sel { background: var(--teal); color: #ff
 .diploma .sub, .diploma .cap { font-size: 1.05rem; color: var(--ink-soft); }
 
 @media print { header.top, .back, #cf, .btn, .tip { display: none !important; } body { background: #fff; } }
-@media(max-width: 480px) { body { font-size: 1.1rem; } .opt-grid { grid-template-columns: 1fr; } .bigimg { font-size: 4.5rem; } header.top h1 { font-size: 1.9rem; } }
+@media(max-width: 480px) { body { font-size: 1.1rem; } .opt-grid { grid-template-columns: 1fr; } .bigimg { font-size: 4.5rem; } header.top h1 { font-size: 1.3rem; } }
 </style>
 </head>
 <body>
 <div class="wrap">
 <header class="top">
-  <h1>🧠 Mente Activa</h1>
-  <p>Entrená la memoria y aprendé a usar la computadora, jugando</p>
+  <h1>Centro de Innovación Tecnológica de Aldeas Infantiles Argentina Filial Mendoza</h1>
+  <div class="brand">🧠 Mente Activa</div>
+  <p id="sub">Entrená la memoria y aprendé a usar la computadora, jugando</p>
   <div class="bar">
     <span>Letra:</span><button class="sb" onclick="setFs(-1)" aria-label="Achicar letra">A−</button><button class="sb" onclick="setFs(1)" aria-label="Agrandar letra">A+</button>
     <span>Nivel:</span><button class="sb" id="l0" onclick="setLv(0)">Fácil</button><button class="sb" id="l1" onclick="setLv(1)">Normal</button><button class="sb" id="l2" onclick="setLv(2)">Desafío</button>
@@ -199,7 +202,7 @@ function stop() { TM.forEach(clearTimeout); TM = []; try { speechSynthesis.cance
 
 /* NAVEGACIÓN COMPATIBLE CON BOTÓN "ATRÁS" DEL CELULAR */
 function view(t, h, pushState = true) {
-  stop();
+  stop(); onMenu = false;
   if (pushState && history.state?.page !== 'game') {
     history.pushState({ page: 'game' }, '');
   }
@@ -252,6 +255,17 @@ const SEG = [['Te llega un mensaje: "Ganaste un premio, pasanos la clave de tu b
 const PASOS = [['Preparar café','Poner agua a calentar|Colocar el café en el filtro|Verter el agua caliente|Servir en la taza'],['Lavarse las manos','Abrir la canilla|Poner jabón|Frotar las manos|Enjuagar y secar'],['Plantar una semilla','Preparar la tierra|Hacer un pozo|Colocar la semilla|Regar'],['Mandar un mensaje de WhatsApp','Abrir WhatsApp|Elegir el contacto|Escribir el mensaje|Tocar enviar'],['Mandar un correo','Abrir el correo|Tocar "Redactar"|Escribir el mensaje|Tocar "Enviar"'],['Buscar algo en internet','Abrir el navegador|Escribir lo que busco|Apretar Enter|Elegir un resultado'],['Hacer una videollamada','Abrir la aplicación|Elegir a la persona|Tocar el ícono de la cámara|Esperar que atienda'],['Hacer la cama','Sacudir las sábanas|Estirar la sábana|Poner la colcha|Acomodar las almohadas']];
 const TW = [['SOL','CASA','FLOR','MESA','PAN','LUNA'],['FAMILIA','VENTANA','AMIGOS','JARDÍN','CAFÉ','MONTAÑA'],['Buen dia','Hola como estas','Me gusta el mate','Feliz cumpleanios','Vamos a Mendoza']];
 const TIPS = ['Para copiar y pegar usá Ctrl+C y Ctrl+V.','El botón ✕ cierra una ventana; no apaga la computadora.','Si algo sale mal, probá con la tecla Esc.','Con Ctrl y la rueda del mouse agrandás las letras de la pantalla.','Dos clics rápidos sobre una carpeta la abren.','Nunca des tu clave a nadie, ni a quien diga ser del banco.','Con Ctrl+Z podés deshacer lo último que hiciste.'];
+
+/* ===== CONTENIDO PARA CELULAR (versión responsiva) ===== */
+const PARC = [['🔋','Batería','Guarda la energía del celular. Hay que cargarla seguido.'],['🔌','Cargador','Sirve para cargar la batería.'],['📶','Señal','Indica si hay señal para llamar.'],['📷','Cámara','Sirve para sacar fotos y hacer videollamadas.'],['🔊','Botones de volumen','Están al costado: suben o bajan el sonido.'],['🔦','Linterna','Ilumina cuando hay poca luz.'],['🎧','Auriculares','Para escuchar sin molestar a otros.'],['📱','Pantalla táctil','Se maneja tocándola con el dedo.']];
+const ICOC = [['📞','Hacer una llamada'],['💬','Mandar mensajes'],['📷','Sacar una foto'],['🔦','Prender la linterna'],['📶','Ver la señal o el Wi-Fi'],['🔋','Ver cuánta batería queda'],['⚙️','Ajustes (configuración)'],['🔔','Avisos y notificaciones'],['🔒','Bloquear el celular'],['📍','Mostrar dónde estoy (ubicación)'],['🔇','Silenciar el sonido'],['🆘','Pedir ayuda en una emergencia']];
+const GES = [['¿Cómo se abre una aplicación?','Tocándola una vez con el dedo','Apretándola muy fuerte|Sacudiendo el celular|Tocándola con la uña'],['¿Cómo se agranda una foto?','Separando dos dedos sobre la foto','Tocándola muchas veces|Apagando la pantalla|Apretando el volumen'],['¿Cómo se ven los avisos y accesos rápidos?','Deslizando el dedo desde arriba hacia abajo','Dando vuelta el celular|Soplando la pantalla|Tocando la cámara'],['¿Cómo se sube o baja el volumen?','Con los botones del costado','Con la cámara|Con el cargador|Con la linterna'],['¿Cómo se recorre una lista larga de mensajes o fotos?','Deslizando el dedo hacia arriba o abajo','Golpeando la pantalla|Tocando el cargador|Apagando el celular'],['¿Cómo se bloquea la pantalla?','Apretando una vez el botón de encendido','Dándolo vuelta|Quitando el cargador|Cerrando la cámara']];
+const SEGT = [['Te llaman y dicen ser del banco: "Tu cuenta está en riesgo, decime el código que te llegó". ¿Qué hacés?','Corto y llamo yo al número oficial del banco','Le digo el código|Le doy mi clave para verificar','El banco nunca pide códigos ni claves por teléfono.'],['Te escribe por WhatsApp un número nuevo: "Hola, soy tu hijo, cambié de número, ¿me prestás plata?". ¿Qué hacés?','Llamo a mi hijo a su número de siempre','Le transfiero enseguida|Le paso los datos de mi tarjeta','Siempre confirmá por otro medio, como una llamada al número que ya conocés.'],['Te llega un SMS: "Tu paquete está retenido, pagá en este link". ¿Qué hacés?','No toco el link y borro el mensaje','Toco el link y pago|Reenvío el mensaje a mis amigos','Los links desconocidos pueden robar tus datos.'],['Alguien llama y dice: "Tu nieto tuvo un accidente, necesito dinero urgente". ¿Qué hacés?','Corto y llamo a mi familia para confirmar','Le entrego dinero a quien venga|Le paso mis datos','Los estafadores apuran para que no pienses. Respirá y verificá.'],['Te llega por SMS un código que vos no pediste. ¿Qué hacés?','No se lo digo a nadie','Se lo digo a quien me llama|Lo comparto en un grupo','Ese código es tu llave: nunca lo compartas.'],['Una llamada dice que ganaste un sorteo, pero tenés que pagar para cobrar el premio.','Es una estafa: corto la llamada','Pago para cobrar|Paso los datos de mi tarjeta','Un premio verdadero nunca pide que pagues antes.'],['Te llaman muchas veces de un número desconocido y te molestan. ¿Qué podés hacer?','Bloquear ese número','Atender y dar mis datos|Devolver la llamada enojado','Podés bloquear números desde el teléfono.']];
+const SEGC = [['¿Cuál es un buen bloqueo para tu celular?','Un PIN o huella que solo yo conozca','Dejarlo sin bloqueo|Usar 1234|Usar mi año de nacimiento','Un bloqueo protege tus fotos, mensajes y cuentas.'],['¿Dónde conviene descargar aplicaciones?','Solo de la tienda oficial (Play Store o App Store)','De links que me mandan|De cualquier página','Las apps de fuentes desconocidas pueden traer virus.'],['Estás en un lugar con Wi-Fi gratis. ¿Entrás a tu banco?','Mejor no: uso mis datos móviles','Sí, no hay problema|Sí, y dejo mi clave guardada','El Wi-Fi público puede ser espiado.'],['¿Qué hacés si perdés el celular?','Aviso a mi familia y bloqueo la línea con mi empresa','Espero a ver si aparece|Pongo un cartel con mi clave','Cuanto antes bloqueás la línea, más protegido estás.'],['El celular te avisa que hay una actualización. ¿Qué conviene?','Actualizarlo: mejora la seguridad','Ignorarlo para siempre|Borrar todo','Las actualizaciones tapan agujeros de seguridad.'],['¿Con quién podés compartir tu PIN o tu clave?','Con nadie','Con cualquiera que me ayude|Con alguien que me llama','Ni el banco ni la empresa de teléfono te la van a pedir.'],['Una aplicación pide ver tus fotos y contactos y no entendés por qué. ¿Qué hacés?','No acepto y la desinstalo','Acepto sin leer|Acepto todo','Dar permisos de más puede exponer tus datos.']];
+const EMER = [['¿A qué número llamás si necesitás a la policía?','911','107|100|123'],['¿A qué número llamás para una emergencia médica (ambulancia)?','107','911|100|144'],['¿A qué número llamás si hay un incendio (bomberos)?','100','107|911|130'],['Si te sentís en peligro y no sabés a quién llamar, ¿qué número marcás?','911','100|107|0800'],['¿Se puede llamar al 911 aunque no tengas crédito?','Sí, es gratis','No, hay que pagar|Solo con Wi-Fi|Solo de día']];
+const PASC = [['Hacer una llamada','Abrir el ícono del teléfono|Buscar el contacto|Tocar el ícono verde de llamar|Esperar que atiendan'],['Sacar y mandar una foto','Abrir la cámara|Tocar el botón redondo|Elegir la foto en WhatsApp|Tocar enviar'],['Prender la linterna','Deslizar el dedo desde arriba|Buscar el ícono de la linterna|Tocarlo|Apuntar donde necesito luz'],['Cargar el celular','Conectar el cable al cargador|Enchufar el cargador|Conectar el cable al celular|Ver el rayito de carga'],['Bloquear un número molesto','Abrir el teléfono|Tocar el número que llamó|Elegir "Bloquear"|Confirmar'],['Mandar un mensaje de WhatsApp','Abrir WhatsApp|Elegir el contacto|Escribir el mensaje|Tocar enviar']];
+const TIPSC = ['Nunca digas por teléfono tus claves ni códigos, aunque digan ser del banco.','Si dudás de una llamada, cortá y llamá vos al número oficial.','Separando dos dedos sobre la pantalla agrandás fotos y textos.','Poné un PIN o huella para que nadie use tu celular.','Desde Ajustes podés agrandar el tamaño de la letra del celular.','Si un "familiar" te pide plata urgente desde un número nuevo, llamalo antes.','Cargá el celular de noche para que no se quede sin batería.','En una emergencia llamá al 911. Es gratis.','Nunca compartas el código que te llega por SMS o WhatsApp.'];
+
 const COL = [['Verde','#3E8E5B'],['Rojo','#C24E4E'],['Amarillo','#B8860B'],['Violeta','#7A5CC0']];
 
 /* ===== CONFIGURACIÓN DE JUEGOS ===== */
@@ -277,7 +291,17 @@ const G = {
   intruso: Q('🔍','Encontrá el intruso','Cuál no pertenece al grupo','Categorías', () => sample(INT, qc()).map(([w,i]) => { const ws = w.split(' '), o = L ? shuffle([...ws, i]) : shuffle([i, ...sample(ws, 2)]); return { p: '¿Cuál NO pertenece al grupo?', o, a: o.indexOf(i) }; })),
   anag: Q('🔤','Ordená las letras','Formá la palabra correcta','Lenguaje', () => sample(ANA, qc()).map(([w,d]) => { let s; do { s = shuffle(w.split('')).join(''); } while (s === w); return toQ('Ordená las letras: ' + s.split('').join(' '), w, d.split('|')); })),
   trivia: Q('💡','Sabías que…','Cultura general y Argentina','Cultura general', () => sample(TRI, qc()).map(([p,c,d]) => toQ(p, c, d.split('|'), '💡'))),
-  imagenes: Q('🖼️','¿Qué es esto?','Nombrá cada imagen','Vocabulario visual', () => sample(IMG, qc()).map(([e,n]) => toQ('¿Qué es esto?', n, IMG.map(p=>p[1]).filter(m=>m!==n), e)))
+  imagenes: Q('🖼️','¿Qué es esto?','Nombrá cada imagen','Vocabulario visual', () => sample(IMG, qc()).map(([e,n]) => toQ('¿Qué es esto?', n, IMG.map(p=>p[1]).filter(m=>m!==n), e))),
+
+  /* ----- Celular y seguridad (versión responsiva) ----- */
+  toque: { e:'👆', t:'Practicá tocar la pantalla', d:'Un toque y doble toque con círculos', b:'Celular: puntería', run: mouse },
+  gestos: Q('🤏','Gestos del celular','Tocar, deslizar y agrandar','Celular: gestos', () => sample(GES, Math.min(qc(), 6)).map(([p,c,d,x]) => toQ(p, c, d.split('|'), '🤏', x))),
+  pasosCel: { e:'📲', t:'Pasos en el celular', d:'Llamar, sacar fotos y más, en orden', b:'Celular: paso a paso', run: pasos },
+  partesCel: Q('📱','Partes del celular','¿Cómo se llama cada cosa?','Celular: vocabulario', () => sample(PARC, qc()).map(([e,n,x]) => toQ('¿Cómo se llama esto?', n, PARC.map(p=>p[1]).filter(m=>m!==n), e, x))),
+  iconosCel: Q('🔔','Íconos del celular','¿Para qué sirve cada ícono?','Celular: íconos', () => sample(ICOC, qc()).map(([e,n]) => toQ('¿Para qué sirve este ícono?', n, ICOC.map(p=>p[1]).filter(m=>m!==n), e))),
+  segTel: Q('☎️','Estafas por teléfono','Llamadas y mensajes falsos','Seguridad: estafas', () => sample(SEGT, Math.min(qc(), 7)).map(([p,c,d,x]) => toQ(p, c, d.split('|'), '☎️', x))),
+  segCel: Q('🔐','Protegé tu celular','Claves, apps y Wi-Fi seguros','Seguridad: celular', () => sample(SEGC, Math.min(qc(), 7)).map(([p,c,d,x]) => toQ(p, c, d.split('|'), '🔐', x))),
+  emerg: Q('🆘','Números de emergencia','Policía, ambulancia y bomberos','Seguridad: emergencias', () => sample(EMER, Math.min(qc(), 5)).map(([p,c,d]) => toQ(p, c, d.split('|'), '🆘')))
 };
 
 const SEC = [
@@ -285,16 +309,28 @@ const SEC = [
   ['💻 Aprendé a usar la compu', ['mouse','ventana','tec','partes','iconos','seg']],
   ['🎲 Palabras, números y cultura', ['calc','refranes','anto','sec','intruso','anag','trivia','imagenes']]
 ];
+/* Versión para celular: sin contenido de PC; con celular y seguridad */
+const SEC_CEL = [
+  ['🧠 Entrená tu memoria', ['parejas','falt','lista','simon','pasos']],
+  ['📱 Aprendé a usar el celular', ['toque','gestos','pasosCel','partesCel','iconosCel']],
+  ['🛡️ Seguridad y emergencias', ['segTel','segCel','emerg','seg']],
+  ['🎲 Palabras, números y cultura', ['calc','refranes','anto','sec','intruso','anag','trivia','imagenes']]
+];
+const PHONE = window.matchMedia('(max-width: 620px)');
+let onMenu = true;
+function setHeader() { $('#sub').textContent = PHONE.matches ? 'Entrená la memoria y aprendé a usar tu celular con seguridad, jugando' : 'Entrená la memoria y aprendé a usar la computadora, jugando'; }
+PHONE.addEventListener('change', () => { setHeader(); if (onMenu) menu(false); });
 
 function menu(pushState = true) {
   stop();
   if (pushState && history.state?.page === 'game') {
     history.pushState({ page: 'menu' }, '');
   }
-  const n = Object.values(stats()).reduce((a, o) => a + o.j, 0);
-  app.innerHTML = `<div class="tip">💡 <b>Consejo para la compu:</b> ${TIPS[rnd(TIPS.length)]}</div>` +
+  onMenu = true; setHeader();
+  const n = Object.values(stats()).reduce((a, o) => a + o.j, 0), ph = PHONE.matches;
+  app.innerHTML = `<div class="tip">💡 <b>${ph ? 'Consejo para el celular' : 'Consejo para la compu'}:</b> ${ph ? TIPSC[rnd(TIPSC.length)] : TIPS[rnd(TIPS.length)]}</div>` +
     `<div class="tip" style="border-left-color:var(--teal)">⭐ Actividades completadas: <b>${n}</b></div>` +
-    SEC.map(([t, ks]) => `<h3 class="sec">${t}</h3><div class="menu-grid">${ks.map(k => `<button class="game-card" onclick="G['${k}'].run('${k}')"><span class="emoji">${G[k].e}</span><span class="txt"><strong>${G[k].t}</strong><span>${G[k].d}</span><span class="benefit">${G[k].b}</span></span></button>`).join('')}</div>`).join('') +
+    (ph ? SEC_CEL : SEC).map(([t, ks]) => `<h3 class="sec">${t}</h3><div class="menu-grid">${ks.map(k => `<button class="game-card" onclick="G['${k}'].run('${k}')"><span class="emoji">${G[k].e}</span><span class="txt"><strong>${G[k].t}</strong><span>${G[k].d}</span><span class="benefit">${G[k].b}</span></span></button>`).join('')}</div>`).join('') +
     `<div class="menu-grid" style="margin-top:24px"><button class="stats-link" onclick="prog()">📊 Mis progresos</button><button class="stats-link" onclick="cert()">🏅 Mi certificado</button></div>`;
   scrollTo(0, 0);
 }
@@ -305,7 +341,7 @@ function qStep() {
   const { k, qs, q, s } = ST;
   if (q >= qs.length) return end(k, s, qs.length);
   const it = qs[q];
-  view(G[k].t, `<div class="status">Pregunta ${q + 1} de${qs.length} · Aciertos: ${s}</div>${it.img ? `<div class="bigimg">${it.img}</div>` : ''}<div class="quiz-prompt">${it.p}</div><button class="tts" onclick="say()">🔊 Escuchar</button><div class="opt-grid">${it.o.map((t, i) => `<button class="opt" onclick="pick(${i},this)">${t}</button>`).join('')}</div><div class="feedback" id="fb" aria-live="polite"></div><div id="nx"></div>`);
+  view(G[k].t, `<div class="status">Pregunta ${q + 1} de ${qs.length} · Aciertos: ${s}</div>${it.img ? `<div class="bigimg">${it.img}</div>` : ''}<div class="quiz-prompt">${it.p}</div><button class="tts" onclick="say()">🔊 Escuchar</button><div class="opt-grid">${it.o.map((t, i) => `<button class="opt" onclick="pick(${i},this)">${t}</button>`).join('')}</div><div class="feedback" id="fb" aria-live="polite"></div><div id="nx"></div>`);
 }
 function pick(i, b) {
   if (IS_BUSY) return;
@@ -327,9 +363,9 @@ function say() {
 function buildCalc() {
   return Array.from({ length: qc() }, () => {
     const m = LV(10, 20, 40); let a = rnd(m) + 1, b = rnd(m) + 1, r = Math.random(), t, ans;
-    if (L == 2 && r < .3) { a = rnd(8) + 2; b = rnd(8) + 2; t = `${a} ×${b}`; ans = a * b; }
-    else if (r < .6) { t = `${a} +${b}`; ans = a + b; }
-    else { [a, b] = [Math.max(a, b), Math.min(a, b)]; t = `${a} −${b}`; ans = a - b; }
+    if (L == 2 && r < .3) { a = rnd(8) + 2; b = rnd(8) + 2; t = `${a} × ${b}`; ans = a * b; }
+    else if (r < .6) { t = `${a} + ${b}`; ans = a + b; }
+    else { [a, b] = [Math.max(a, b), Math.min(a, b)]; t = `${a} − ${b}`; ans = a - b; }
     const o = new Set([ans]);
     while (o.size < LV(2, 4, 4)) { const c = ans + rnd(9) - 4; if (c >= 0) o.add(c); }
     const arr = shuffle([...o].map(String));
@@ -362,7 +398,7 @@ function flip(b) {
     a.classList.add('matched'); b.classList.add('matched');
     a.setAttribute('aria-label', 'Carta emparejada ' + a.dataset.s);
     b.setAttribute('aria-label', 'Carta emparejada ' + b.dataset.s);
-    ST.m++; $('#st').textContent = `Parejas: ${ST.m} de${ST.n}`;
+    ST.m++; $('#st').textContent = `Parejas: ${ST.m} de ${ST.n}`;
     if (ST.m == ST.n) later(() => end('parejas', Math.min(ST.n, Math.round(ST.n * ST.n / ST.mv)), ST.n, `Lo lograste en ${ST.mv} intentos.`), 900);
   } else {
     ST.lock = 1;
@@ -417,7 +453,7 @@ function lAsk() { view('Memorizá la lista', `<p>Tocá las palabras que viste en
 function lTg(b, w) { ST.sel.has(w) ? ST.sel.delete(w) : ST.sel.add(w); b.classList.toggle('sel'); }
 function lEnd() {
   const h = [...ST.sel].filter(w => ST.t.includes(w)).length, m = ST.sel.size - h;
-  end('lista', Math.max(0, h - m), ST.t.length, `Acertaste ${h} y te equivocaste en${m}. Las palabras eran: ${ST.t.join(', ')}.`);
+  end('lista', Math.max(0, h - m), ST.t.length, `Acertaste ${h} y te equivocaste en ${m}. Las palabras eran: ${ST.t.join(', ')}.`);
 }
 
 /* Secuencia de colores */
@@ -429,7 +465,7 @@ const tiles = d => document.querySelectorAll('.tile').forEach(t => t.disabled = 
 function sNext(f) {
   if (f) { ST.seq = []; ST.r = 0; $('#sb').style.display = 'none'; }
   ST.seq.push(rnd(4)); ST.r++; ST.i = 0; tiles(true);
-  $('#ss').textContent = `Ronda ${ST.r} de${ST.max}. Mirá bien…`;
+  $('#ss').textContent = `Ronda ${ST.r} de ${ST.max}. Mirá bien…`;
   const sp = LV(1000, 750, 550); let i = 0;
   const step = () => {
     if (i >= ST.seq.length) { tiles(false); $('#ss').textContent = 'Ahora te toca a vos: repetí la secuencia.'; return; }
@@ -451,12 +487,12 @@ function sClk(c) {
 }
 
 /* Ordená los pasos */
-function pasos() { ST = { t: sample(PASOS, 3), i: 0, s: 0 }; pRound(); }
+function pasos(k) { k = k || 'pasos'; ST = { k, t: sample(k === 'pasosCel' ? PASC : PASOS, 3), i: 0, s: 0 }; pRound(); }
 function pRound() {
   const [n, s] = ST.t[ST.i]; ST.n = n; ST.c = s.split('|');
   let o; do { o = shuffle([...ST.c]); } while (o.join() === ST.c.join());
   ST.o = o; ST.tr = 0; ST.res = null;
-  view('Ordená los pasos', `<div class="status">Tarea ${ST.i + 1} de 3: <b>${n}</b>. Usá las flechas ▲ ▼ para poner los pasos en orden.</div><ol class="pasos-list" id="pl">${pList()}</ol><div class="feedback" id="fb" aria-live="polite"></div><div id="nx"><button class="btn" onclick="pChk()">Verificar orden</button></div>`);
+  view(G[ST.k].t, `<div class="status">Tarea ${ST.i + 1} de 3: <b>${n}</b>. Usá las flechas ▲ ▼ para poner los pasos en orden.</div><ol class="pasos-list" id="pl">${pList()}</ol><div class="feedback" id="fb" aria-live="polite"></div><div id="nx"><button class="btn" onclick="pChk()">Verificar orden</button></div>`);
 }
 function pList() {
   return ST.o.map((x, i) => `<li class="pasos-item ${ST.res ? ST.res[i] : ''}"><button class="move" ${i ? '' : 'disabled'} onclick="pMv(${i},-1)" aria-label="Subir">▲</button><button class="move" ${i == ST.o.length - 1 ? 'disabled' : ''} onclick="pMv(${i},1)" aria-label="Bajar">▼</button><span class="txt">${x}</span></li>`).join('');
@@ -469,16 +505,16 @@ function pChk() {
   f.textContent = ok ? '¡Perfecto, ese es el orden correcto!' : 'Todavía no. Los pasos en verde están bien ubicados.';
   if (ok) {
     if (ST.tr == 1) ST.s++;
-    $('#nx').innerHTML = '<button class="btn" onclick="ST.i++;ST.i>=3?end(\'pasos\',ST.s,3,\'Puntos por resolver a la primera.\'):pRound()">Siguiente ▶</button>';
+    $('#nx').innerHTML = '<button class="btn" onclick="ST.i++;ST.i>=3?end(ST.k,ST.s,3,\'Puntos por resolver a la primera.\'):pRound()">Siguiente ▶</button>';
   }
 }
 
 /* Mouse (con soporte para 2 toques rápidos en táctil) */
-function mouse() { ST = { n: LV(8, 10, 14), i: 0, t: Date.now() }; view('Practicá el mouse o el dedo', '<div class="status" id="ms"></div><div class="arena" id="ar"></div>'); mT(); }
+function mouse(k) { k = k || 'mouse'; ST = { k, n: LV(8, 10, 14), i: 0, t: Date.now() }; view(k === 'toque' ? 'Practicá tocar la pantalla' : 'Practicá el mouse o el dedo', '<div class="status" id="ms"></div><div class="arena" id="ar"></div>'); mT(); }
 function mT() {
-  if (ST.i >= ST.n) return end('mouse', ST.n, ST.n, `Tardaste ${Math.round((Date.now() - ST.t) / 1000)} segundos.`);
+  if (ST.i >= ST.n) return end(ST.k, ST.n, ST.n, `Tardaste ${Math.round((Date.now() - ST.t) / 1000)} segundos.`);
   const ar = $('#ar'), d = ST.i > 1 && Math.random() < .4, z = LV(90, 72, 56);
-  $('#ms').textContent = `${ST.i + 1} de${ST.n}: ` + (d ? 'círculo NARANJA → tocalo dos veces seguidas (doble clic).' : 'círculo VERDE → tocalo una vez (un clic).');
+  $('#ms').textContent = `${ST.i + 1} de ${ST.n}: ` + (ST.k === 'toque' ? (d ? 'círculo NARANJA → tocalo dos veces seguidas (doble toque).' : 'círculo VERDE → tocalo una vez (un toque).') : (d ? 'círculo NARANJA → tocalo dos veces seguidas (doble clic).' : 'círculo VERDE → tocalo una vez (un clic).'));
   ar.innerHTML = `<button class="target" aria-label="Círculo" style="width:${z}px;height:${z}px;left:${rnd(ar.clientWidth - z)}px;top:${rnd(320 - z)}px;background:${d ? '#C55E40' : '#3E8E5B'}">${d ? '2' : '1'}</button>`;
   
   const b = ar.firstChild, ok = () => { ST.i++; mT(); };
@@ -546,7 +582,7 @@ function tC() {
 /* Progreso con confirmación y certificado */
 function prog() {
   const S = stats(), k = Object.keys(S);
-  view('Mis progresos', `<div class="status">Guardados en este dispositivo.</div>${k.length ? k.map(x => `<div class="prog-row"><strong>${G[x] ? G[x].t : x}</strong><span>Mejor: ${S[x].m}/${S[x].n} · ${S[x].j}${S[x].j == 1 ? 'vez' : 'veces'}</span></div>`).join('') : '<p>Todavía no completaste ninguna actividad. ¡Animate a probar una!</p>'}<button class="btn" style="background:var(--coral)" onclick="confirmReset()">Borrar progresos</button>`);
+  view('Mis progresos', `<div class="status">Guardados en este dispositivo.</div>${k.length ? k.map(x => `<div class="prog-row"><strong>${G[x] ? G[x].t : x}</strong><span>Mejor: ${S[x].m}/${S[x].n} · ${S[x].j} ${S[x].j == 1 ? 'vez' : 'veces'}</span></div>`).join('') : '<p>Todavía no completaste ninguna actividad. ¡Animate a probar una!</p>'}<button class="btn" style="background:var(--coral)" onclick="confirmReset()">Borrar progresos</button>`);
 }
 function confirmReset() {
   if (confirm('¿Estás seguro de que querés borrar todos tus progresos? Esta acción no se puede deshacer.')) {
@@ -560,7 +596,7 @@ function cert() {
 }
 function mkCert() {
   const n = Object.values(stats()).reduce((a, o) => a + o.j, 0);
-  $('#dp').innerHTML = `<div class="diploma"><div>🏅</div><div class="cap">Certificado de participación</div><div class="name"></div><div class="sub">Completó ${n} actividades de Mente Activa</div><div class="sub">${new Date().toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })}</div></div><button class="btn" onclick="print()">🖨️ Imprimir</button>`;
+  $('#dp').innerHTML = `<div class="diploma"><div>🏅</div><div class="org">Centro de Innovación Tecnológica de Aldeas Infantiles Argentina Filial Mendoza</div><div class="cap">Certificado de participación</div><div class="name"></div><div class="sub">Completó ${n} actividades de Mente Activa</div><div class="sub">${new Date().toLocaleDateString('es-AR', { year: 'numeric', month: 'long', day: 'numeric' })}</div></div><button class="btn" onclick="print()">🖨️ Imprimir</button>`;
   $('.name').textContent =$('#cn').value.trim() || 'Participante';
 }
 
